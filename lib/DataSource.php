@@ -24,7 +24,7 @@ class DataSource
 
     const PASSWORD = '';
 
-    const DATABASENAME = 'ayub12';
+    const DATABASENAME = 'ayub';
 
     private $connection;
 

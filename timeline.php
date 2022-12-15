@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pesbuk Timeline</title>
+    <title>Daftar Belanja</title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css" />
 </head>
@@ -71,7 +71,7 @@ if (! empty($_POST["search"])) {
     }
 }
 $orderby = " ORDER BY id desc";
-$sql = "SELECT * FROM subagiya " . $queryCondition;
+$sql = "SELECT id,name,code,category,price,stock_count,(price*stock_count) as Total FROM subagiya " . $queryCondition;
 $href = 'index.php';
 
 $perPage = 3;
@@ -155,7 +155,7 @@ button, input[type=submit].perpage-link {
                             type="submit" name="go" class="btnSearch"
                             value="Search"> <input type="reset"
                             class="btnReset" value="Reset"
-                            onclick="window.location='index.php'">
+                            onclick="window.location='timeline.php'">
                     </p>
                 </div>
                 <div>
@@ -165,11 +165,13 @@ button, input[type=submit].perpage-link {
                 <table class="stripped">
                     <thead>
                         <tr>
+                            <th>No</th>
                             <th>Nama</th>
-                            <th>Id_Barang</th>
+                            <th>Id_Pembeli</th>
                             <th>Category</th>
                             <th>Harga</th>
                             <th>Jumlah</th>
+                            <th>Total Harga</th>
                             
                             <th>Action</th>
                         </tr>
@@ -181,12 +183,13 @@ button, input[type=submit].perpage-link {
                             if (is_numeric($key)) {
                                 ?>
                      <tr>
+                            <td><?php echo $result[$key]['id']; ?></td>
                             <td><?php echo $result[$key]['name']; ?></td>
                             <td><?php echo $result[$key]['code']; ?></td>
                             <td><?php echo $result[$key]['category']; ?></td>
                             <td><?php echo $result[$key]['price']; ?></td>
-                            
                             <td><?php echo$result[$key]['stock_count']; ?></td>
+                            <td><?php echo$result[$key]['Total']; ?></td>
                             <td><a class="mr-20"
                                 href="edit.php?id=<?php echo $result[$key]["id"]; ?>">Edit</a>
                                 <a

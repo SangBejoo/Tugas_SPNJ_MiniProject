@@ -1,8 +1,15 @@
 <?php 
 
 require_once("config.php");
+$msg = "";
 
 if(isset($_POST['login'])){
+    $recaptchaResponse = $_POST["g-recaptcha-response"];
+    $userIp = $_SERVER["REMOTE_ADDR"];
+
+    $request = "https://www.google.com/recaptcha/api/siteverify?secret={$secretKey}&response={$recaptchaResponse}&remoteip={$userIp}";
+    $content = file_get_contents($request);
+    $json = json_decode($content);
 
     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
@@ -19,6 +26,7 @@ if(isset($_POST['login'])){
     $stmt->execute($params);
 
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
 
     // jika user terdaftar
     if($user){
@@ -44,6 +52,10 @@ if(isset($_POST['login'])){
     <title>Login </title>
 
     <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
 </head>
 <body class="bg-light">
 
@@ -68,7 +80,7 @@ if(isset($_POST['login'])){
                 <label for="password">Password</label>
                 <input class="form-control" type="password" name="password" placeholder="Password" />
             </div>
-
+            <div class="g-recaptcha mb-3" data-sitekey="<?php echo $siteKey; ?>"></div>
             <input type="submit" class="btn btn-success btn-block" name="login" value="Masuk" />
 
         </form>
@@ -76,7 +88,9 @@ if(isset($_POST['login'])){
         </div>
 
         <div class="col-md-6">
-            <!-- isi dengan sesuatu di sini -->
+       
+            <img class="img" src="https://img.freepik.com/free-photo/young-woman-wear-glasses-shop-smart-phones_1150-27718.jpg?w=1380&t=st=1670676183~exp=1670676783~hmac=b162bb7b3d9dc9e710c00d91ef5e869c14e4daed880fd6028b31734a4027b8e1" />
+        
         </div>
 
     </div>
